@@ -1,4 +1,0 @@
-HFT-Crypto-API
-pandas
-ta
-matplotlib
