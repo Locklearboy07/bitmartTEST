@@ -1,5 +1,6 @@
 import bitmart
 import talib
+from flask import Flask
 from bitmart.api_spot import APISpot
 
 api_key = "039c26c7f5316ab9891ed924b3a4885bf35c70fe"
@@ -23,7 +24,7 @@ def calculate_moving_average():
 
 # Function to calculate the upper and lower Bollinger Bands of the xrp/USDT pair
 def calculate_bollinger_bands():
-    prices = api.get_candlestick('xrp_USDT', '1h', 21)
+    prices = api.get_candlestick('xrp_USDT', '1h', 21)\]
     close_prices = [float(price['close']) for price in prices['data']]
     upper_band, middle_band, lower_band = talib.BBANDS(close_prices, timeperiod=20)
     return upper_band[-1], middle_band[-1], lower_band[-1]
@@ -55,3 +56,12 @@ def main():
 # Execute the main function if the script is run directly
 if __name__ == "__main__":
     main()
+    
+app = Flask(__name__)
+
+     @app.route('/')
+     def hello():
+         return 'Hello, World!'
+
+     if __name__ == '__main__':
+         app.run()

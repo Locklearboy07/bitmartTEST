@@ -2,7 +2,7 @@
 requires = ["hatchling"]
 build-backend = "hatchling.build"
 [project]
-name = "BITMART TEST"
+name = "JJ.py"
 version = "1"
 description = "Bitmart Test"
 authors = [{ name = "JJ.py", email = "marklocklear07@gmail.com" }]
