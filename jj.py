@@ -1,6 +1,6 @@
 import bitmart
 import talib
-from flask import Flask
+from flask import Flask, jsonify
 from bitmart.api_spot import APISpot
 
 api_key = "039c26c7f5316ab9891ed924b3a4885bf35c70fe"
@@ -9,53 +9,40 @@ memo = "5"
 url = "https://api-cloud.bitmart.com/spot/v1/ticker_detail"
 api = APISpot(api_key, secret_key, memo, url)
 
-# Function to get the current price of the xrp/USDT trading pair
-def get_current_price():
-    ticker = api.get_ticker('xrp_USDT')
-    return ticker['data']['last_price']
+app = Flask(__name__)
 
-# Function to calculate the moving average of the xrp/USDT pair
+@app.route('/current_price')
+def get_current_price():
+    ticker = api.get_ticker('xlm_usdT')
+    return jsonify(ticker['last_price'])
+
+@app.route('/moving_average')
 def calculate_moving_average():
-    prices = api.get_candlestick('xrp_USDT', '1h', 21)
+    prices = api.get_candlestick('xlm_usdT', '1h', 21)
     close_prices = [float(price['close']) for price in prices['data']]
     moving_average = talib.SMA(close_prices, timeperiod=20)
-    return moving_average[-1]
+    return jsonify(moving_average[-1])
 
-# Function to calculate the upper and lower Bollinger Bands of the xrp/USDT pair
+@app.route('/bollinger_bands')
 def calculate_bollinger_bands():
-    prices = api.get_candlestick('xrp_USDT', '1h', 21)
+    prices = api.get_candlestick('xlm_usdT', '1h', 21)
     close_prices = [float(price['close']) for price in prices['data']]
     upper_band, middle_band, lower_band = talib.BBANDS(close_prices, timeperiod=20)
-    return upper_band[-1], middle_band[-1], lower_band[-1]
+    return jsonify(upper_band[-1], middle_band[-1], lower_band[-1])
 
-# Function to place a buy order for xrp at the specified price
-def buy_xrp(price):
-    api.create_order('xrp_USDT', 'limit', 'buy', price, '10')
+@app.route('/buy_xlm/<price>')
+def buy_xlm(price):
+    api.create_order('xlm_usdtT', 'limit', 'buy', price, '10')
+    return jsonify(message="Buy order placed")
 
-# Function to place a sell order for xrp at the specified price
-def sell_xrp(price):
-    api.create_order('xrp_USDT', 'limit', 'sell', price, '10')
-
-# Main function to monitor the price, moving average, and Bollinger Bands and execute buy/sell orders accordingly
-def main():
-    price = get_current_price()
-    moving_average = calculate_moving_average()
-    upper_band, middle_band, lower_band = calculate_bollinger_bands()
-    while True:
-        price = get_current_price()
-        moving_average = calculate_moving_average()
-        upper_band, middle_band, lower_band = calculate_bollinger_bands()
-        if price > upper_band:
-            sell_xrp(price)
-        elif price < lower_band:
-            buy_xrp(price)
-
-app = Flask(__name__)
+@app.route('/sell_xlm/<price>')
+def sell_xlm(price):
+    api.create_order('xlm_usdtT', 'limit', 'sell', price, '10')
+    return jsonify(message="Sell order placed")
 
 @app.route('/')
 def hello():
     return 'Hello, World!'
 
 if __name__ == '__main__':
-    main()
     app.run()
