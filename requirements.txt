@@ -1,4 +1,4 @@
-bitmart==0.2.3
+bitmart
 Flask==2.0.1
 numpy==1.21.1
 pandas==1.3.1
