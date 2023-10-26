@@ -10,8 +10,8 @@ if __name__ == '__main__':
 
     to_time = datetime.now()
     from_time = to_time - timedelta(days=10)
-    symbol = "BTCUSDT"
-    symbol_spot = "BTC_USDT"
+    symbol = "xlmUSDT"
+    symbol_spot = "xlm_USDT"
     symbol_eth = "ETHUSDT"
     client = Bitmart.BitmartClient(api_key, secret_key, memo)
     # GENERAL PUBLIC
@@ -23,7 +23,7 @@ if __name__ == '__main__':
     contracts_details = client.get_futures_contracts_details()
     symbol_details = client.get_spot_ticker_details(symbol_spot)
     kline_steps = client.get_kline_steps() # Not used
-    print(client.get_symbol_kline(symbol="BTC_USDT", tf=TimeFrame.tf_1h, market=Market.SPOT,
+    print(client.get_symbol_kline(symbol="xlm_USDT", tf=TimeFrame.tf_1h, market=Market.SPOT,
                                   from_time=from_time, to_time=to_time))
     print(client.get_symbol_kline(symbol=symbol, tf=TimeFrame.tf_1h, market=Market.FUTURES,
                                   from_time=from_time, to_time=to_time))
@@ -62,11 +62,11 @@ if __name__ == '__main__':
     client.stop_websockets(Market.FUTURES)
     client.stop_websockets(Market.SPOT)
     # ------------- ORDER
-    order = client.submit_order(market=Market.SPOT_MARGIN, symbol="BTC_USDT", side=SpotSide.BUY, size=0.005, price=1000)
+    order = client.submit_order(market=Market.SPOT_MARGIN, symbol="xlm_USDT", side=SpotSide.BUY, size=0.005, price=1000)
     order = client.submit_order(market=Market.SPOT_MARGIN, order_type=OrderType.MARKET,
-                                symbol="BTC_USDT", side=SpotSide.BUY, size=6, price=1000)
+                                symbol="xlm_USDT", side=SpotSide.BUY, size=6, price=1000)
     order = client.submit_order(market=Market.SPOT_MARGIN, order_type=OrderType.MARKET,
-                                symbol="BTC_USDT", side=SpotSide.SELL, size=6, price=1000)
+                                symbol="xlm_USDT", side=SpotSide.SELL, size=6, price=1000)
     order = client.update_order_details(order)
     client.cancel_order(order)
     order = client.submit_order(market=Market.FUTURES, symbol="ETHUSDT", side=FuturesSide.BUY_OPEN_LONG,
@@ -93,5 +93,5 @@ if __name__ == '__main__':
     rate = client.spot_margin_borrowing_rate(symbol_spot)
     b_records = client.spot_margin_get_borrow_record(symbol_spot)
     r_records = client.spot_margin_get_repay_record(symbol_spot)
-    client.spot_margin_borrow(symbol_spot, "BTC", 0.005)
-    client.spot_margin_repay(symbol_spot, "BTC", 0.005)
+    client.spot_margin_borrow(symbol_spot, "xlm", 0.005)
+    client.spot_margin_repay(symbol_spot, "xlm", 0.005)

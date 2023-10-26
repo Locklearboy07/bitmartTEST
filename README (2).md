@@ -65,7 +65,7 @@ trading_pairs = client.get_list_of_trading_pairs()
 - Get Ticker details by Symbol
 
 ```
-    symbol_details = client.get_spot_ticker_details("BTC_USDT")
+    symbol_details = client.get_spot_ticker_details("xlm_USDT")
 ```
 
 - Get K-Line, return Kline object for specified symbol and time period for SPOT and FUTURES markets
@@ -176,13 +176,13 @@ history = client.get_order_history(symbol=symbol_eth, market=Market.SPOT)
 - Margin Borrow (Isolated)
 
 ```
- borrow_id = client.spot_margin_borrow(symbol_spot, "BTC", 0.005)
+ borrow_id = client.spot_margin_borrow(symbol_spot, "xlm", 0.005)
 ```
 
 - Margin Repay (Isolated)
 
 ```
- repay_id = client.spot_margin_repay(symbol_spot, "BTC", 0.005)
+ repay_id = client.spot_margin_repay(symbol_spot, "xlm", 0.005)
 ```
 
 # Futures
